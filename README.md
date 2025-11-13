@@ -266,50 +266,10 @@ SUPPORTED_LANGUAGES = {
 - **Method**: GET
 - **Example**: `/crop/Apple`
 
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/your-feature-name`
-3. **Commit your changes**: `git commit -m 'Add some feature'`
-4. **Push to the branch**: `git push origin feature/your-feature-name`
-5. **Submit a pull request**
-
-### Areas for Contribution
-- 🎨 UI/UX improvements
-- 🔬 Model accuracy enhancements
-- 🌍 Additional language translations
-- 📊 New crop and disease data
-- 🐛 Bug fixes
-- 📝 Documentation improvements
-
-## 📝 License
-
-This project is open source and available under the MIT License.
-
 ## 👨‍💻 Author
 
 **Chaitanya G H**
 - Project: Plant Disease Detection System
-- Capstone Project - 7th Semester
-
-## 🙏 Acknowledgments
-
-- **Plant Village Dataset**: For providing the training dataset
-- **PyTorch Community**: For the excellent deep learning framework
-- **Flask Community**: For the web framework
-- **Bootstrap**: For the UI framework
-- **All Contributors**: For their valuable contributions
-
-## 📞 Contact
-
-For any queries or suggestions, please contact us through the **Contact Us** page on the website.
-
-## 🔗 Useful Links
-
-- **Blog**: [Plant Disease Detection Using CNN with PyTorch](https://medium.com/analytics-vidhya/plant-disease-detection-using-convolutional-neural-networks-and-pytorch-87c00c54c88f)
-- **Model Download**: [Google Drive](https://drive.google.com/drive/folders/1ewJWAiduGuld_9oGSrTuLumg9y62qS6A?usp=share_link)
 
 ## 📊 Model Information
 
@@ -354,9 +314,5 @@ For any queries or suggestions, please contact us through the **Contact Us** pag
 - Check browser console for errors
 - Verify microphone permissions (for voice input)
 - Ensure internet connection (for Web Speech API)
-
----
-
-**⭐ Star this repository if you find it helpful!**
 
 **🌱 Happy Farming!**
