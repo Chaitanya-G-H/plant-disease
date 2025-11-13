@@ -131,6 +131,31 @@ python app.py
 
 The application will be available at: `http://localhost:5000`
 
+## 🚀 Quick GitHub Updates
+
+To automatically push changes to GitHub:
+
+### Option 1: Use Auto-Push Scripts (Recommended)
+- **Windows (Batch)**: Double-click `AUTO_PUSH_TO_GITHUB.bat`
+- **Windows (PowerShell)**: Right-click `AUTO_PUSH_TO_GITHUB.ps1` → Run with PowerShell
+- **Linux/Mac**: Use git aliases (see below)
+
+### Option 2: Manual Git Commands
+```bash
+git add .
+git commit -m "Your commit message"
+git pull origin main --rebase
+git push origin main
+```
+
+### Option 3: Git Aliases (One-time setup)
+Run the setup script once to create convenient git aliases:
+```bash
+chmod +x .gitconfig_local_push.sh
+./.gitconfig_local_push.sh
+```
+Then use: `git quick-push "Your commit message"`
+
 ## 📁 Project Structure
 
 ```
