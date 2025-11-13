@@ -190,31 +190,15 @@ def mobile_device_detected_page():
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
     if request.method == 'POST':
-        # Check if test image path is provided
-        test_image_path = request.form.get('test_image_path')
-        if test_image_path:
-            # Use test image directly - handle both absolute and relative paths
-            if os.path.isabs(test_image_path):
-                file_path = test_image_path
-            else:
-                # Try test_images folder first
-                file_path = os.path.join(BASE_DIR, 'static', 'test_images', os.path.basename(test_image_path))
-                if not os.path.exists(file_path):
-                    # Fallback to uploads folder
-                    file_path = os.path.join(BASE_DIR, 'static', 'uploads', os.path.basename(test_image_path))
-            
-            if not os.path.exists(file_path):
-                return "Test image not found", 404
-        else:
-            # Handle uploaded file
-            image = request.files.get('image')
-            if not image:
-                return "No image provided", 400
-            filename = image.filename
-            upload_dir = os.path.join(BASE_DIR, 'static', 'uploads')
-            os.makedirs(upload_dir, exist_ok=True)  # Ensure upload directory exists
-            file_path = os.path.join(upload_dir, filename)
-            image.save(file_path)
+        # Handle uploaded file
+        image = request.files.get('image')
+        if not image:
+            return "No image provided", 400
+        filename = image.filename
+        upload_dir = os.path.join(BASE_DIR, 'static', 'uploads')
+        os.makedirs(upload_dir, exist_ok=True)  # Ensure upload directory exists
+        file_path = os.path.join(upload_dir, filename)
+        image.save(file_path)
         print(f"Image saved to: {file_path}")
         pred = prediction(file_path)
         print(f"Final prediction index: {pred}")
