@@ -66,11 +66,7 @@
     "voice_speak": "Click to speak",
     "voice_read": "Read response",
     "thinking": "Thinking...",
-    "error_message": "Sorry, I encountered an error. Please try again.",
-    "test_images": "Test Images",
-    "try_test_images": "Try Test Images",
-    "click_to_test": "Click on any test image below to try the detection system",
-    "use_test_image": "Use this test image"
+    "error_message": "Sorry, I encountered an error. Please try again."
   },
   "hi": {
     "home": "होम",
@@ -139,11 +135,7 @@
     "voice_speak": "बोलने के लिए क्लिक करें",
     "voice_read": "उत्तर पढ़ें",
     "thinking": "सोच रहा हूं...",
-    "error_message": "क्षमा करें, मुझे एक त्रुटि मिली। कृपया पुनः प्रयास करें।",
-    "test_images": "परीक्षण छवियां",
-    "try_test_images": "परीक्षण छवियां आज़माएं",
-    "click_to_test": "पहचान प्रणाली को आज़माने के लिए नीचे किसी भी परीक्षण छवि पर क्लिक करें",
-    "use_test_image": "इस परीक्षण छवि का उपयोग करें"
+    "error_message": "क्षमा करें, मुझे एक त्रुटि मिली। कृपया पुनः प्रयास करें।"
   },
   "bn": {
     "home": "হোম",

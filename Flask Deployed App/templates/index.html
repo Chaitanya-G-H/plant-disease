@@ -106,110 +106,7 @@
         </div>
     </div>
 
-    <!-- Test Images Section -->
-    {% if test_images %}
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="modern-card fade-in-up text-center mb-4">
-                <h3 class="mb-3"><i class="fas fa-vial text-info"></i> {{ t.test_images if t else 'Test Images' }}</h3>
-                <p class="text-muted">{{ t.click_to_test if t else 'Click on any test image below to try the detection system' }}</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row g-3 mb-5">
-        {% for test_img in test_images %}
-        <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="test-image-card fade-in-up" data-path="{{ test_img.path }}" data-name="{{ test_img.name }}" data-filename="{{ test_img.filename }}">
-                <img src="{{ url_for('static', filename='test_images/' + test_img.filename) }}" 
-                     alt="{{ test_img.name }}" 
-                     class="test-image-img">
-                <div class="test-image-overlay">
-                    <h6 class="test-image-name">{{ test_img.name }}</h6>
-                    <p class="test-image-crop">{{ test_img.crop }}</p>
-                    <button class="btn btn-modern btn-sm test-image-btn">
-                        <i class="fas fa-search"></i> {{ t.use_test_image if t else 'Test' }}
-                    </button>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
 </div>
-
-<style>
-    .test-image-card {
-        position: relative;
-        border-radius: 15px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        background: #fff;
-        height: 250px;
-    }
-
-    .test-image-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    .test-image-img {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-    }
-
-    .test-image-card:hover .test-image-img {
-        transform: scale(1.05);
-    }
-
-    .test-image-overlay {
-        padding: 10px;
-        background: #fff;
-        text-align: center;
-        height: 70px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .test-image-name {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #333;
-        margin: 0 0 3px 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .test-image-crop {
-        font-size: 0.75rem;
-        color: #666;
-        margin: 0 0 5px 0;
-    }
-
-    .test-image-btn {
-        padding: 3px 15px;
-        font-size: 0.75rem;
-    }
-
-    @media (max-width: 768px) {
-        .test-image-card {
-            height: 220px;
-        }
-        .test-image-img {
-            height: 150px;
-        }
-        .test-image-overlay {
-            height: 70px;
-            padding: 8px;
-        }
-    }
-</style>
 
 <script>
     const actualBtn = document.getElementById('actual-btn');
@@ -288,27 +185,5 @@
 
     // Update HTML lang attribute based on current language
     document.documentElement.lang = '{{ lang if lang else "en" }}';
-
-    // Handle test image clicks
-    document.querySelectorAll('.test-image-card').forEach(function(card) {
-        card.addEventListener('click', function() {
-            const imagePath = this.dataset.path;
-            const imageName = this.dataset.name;
-            
-            // Create a form and submit with test image path
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/submit';
-            
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'test_image_path';
-            input.value = imagePath;
-            form.appendChild(input);
-            
-            document.body.appendChild(form);
-            form.submit();
-        });
-    });
 </script>
 {% endblock body %}

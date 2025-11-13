@@ -173,21 +173,16 @@ Plant-Disease-Detection-main/
 
 ### Disease Detection
 1. Navigate to the **AI Engine** page
-2. **Option A - Upload Your Image:**
-   - Click **Upload Image** or **Choose File**
-   - Select a leaf image from your device
-   - Click **Submit** to analyze
-3. **Option B - Use Test Images:**
-   - Scroll down to the **Test Images** section
-   - Click on any test image card to instantly test the detection
-   - The system will automatically analyze the selected test image
-4. View the detection results with:
+2. Click **Upload Image** or **Choose File**
+3. Select a leaf image from your device
+4. Click **Submit** to analyze
+5. View the detection results with:
    - Disease name and description
    - Prevention steps
    - Recommended supplements
    - Treatment suggestions
 
-> **💡 Tip**: 48+ pre-loaded test images are available in the `Flask Deployed App/static/test_images/` folder for quick testing and demonstrations. These images cover all supported crops and diseases.
+> **💡 Tip**: Test images are available in the `Flask Deployed App/static/test_images/` folder for project testing and GitHub repository. These can be used manually for testing purposes but are not integrated into the website UI.
 
 ### Crop Information
 1. Go to the **Home** page
