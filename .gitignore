@@ -54,9 +54,16 @@ desktop.ini
 .env
 .env.local
 
-# Uploads (user images)
+# Uploads (user images) - but keep test images
 Flask Deployed App/static/uploads/*
 !Flask Deployed App/static/uploads/.gitkeep
+
+# Test images should be tracked (important for GitHub)
+!Flask Deployed App/static/test_images/
+Flask Deployed App/static/test_images/*
+!Flask Deployed App/static/test_images/*.JPG
+!Flask Deployed App/static/test_images/*.jpg
+!Flask Deployed App/static/test_images/*.png
 
 # Logs
 *.log

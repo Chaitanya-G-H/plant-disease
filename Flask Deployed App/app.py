@@ -179,7 +179,112 @@ def contact():
 def ai_engine_page():
     t = get_translations()
     lang = get_language()
-    return render_template('index.html', t=t, lang=lang, languages=SUPPORTED_LANGUAGES)
+    # Prepare comprehensive test images mapping
+    test_images_mapping = {
+        # Apple
+        'Apple_scab.JPG': {'name': 'Apple : Scab', 'crop': 'Apple'},
+        'apple_black_rot.JPG': {'name': 'Apple : Black Rot', 'crop': 'Apple'},
+        'Apple_ceder_apple_rust.JPG': {'name': 'Apple : Cedar rust', 'crop': 'Apple'},
+        'apple_cedar_rust.JPG': {'name': 'Apple : Cedar rust', 'crop': 'Apple'},  # Alternative filename
+        'apple_healthy.JPG': {'name': 'Apple : Healthy', 'crop': 'Apple'},
+        # Background
+        'background_without_leaves.jpg': {'name': 'Background Without Leaves', 'crop': 'Background'},
+        # Blueberry
+        'blueberry_healthy.JPG': {'name': 'Blueberry : Healthy', 'crop': 'Blueberry'},
+        # Cherry
+        'cherry_healthy.JPG': {'name': 'Cherry : Healthy', 'crop': 'Cherry'},
+        'cherry_powdery_mildew.JPG': {'name': 'Cherry : Powdery Mildew', 'crop': 'Cherry'},
+        # Corn
+        'corn_cercospora_leaf.JPG': {'name': 'Corn : Cercospora Leaf Spot | Gray Leaf Spot', 'crop': 'Corn'},
+        'corn_common_rust.JPG': {'name': 'Corn : Common Rust', 'crop': 'Corn'},
+        'corn_healthy.jpg': {'name': 'Corn : Healthy', 'crop': 'Corn'},
+        'corn_northen_leaf_blight.JPG': {'name': 'Corn : Northern Leaf Blight', 'crop': 'Corn'},
+        # Squash variations
+        'squash_powdery_mildew_1.JPG': {'name': 'Squash : Powdery Mildew', 'crop': 'Squash'},
+        # Grape
+        'grape_black_rot.JPG': {'name': 'Grape : Black Rot', 'crop': 'Grape'},
+        'Grape_esca.JPG': {'name': 'Grape : Esca | Black Measles', 'crop': 'Grape'},
+        'grape_healthy.JPG': {'name': 'Grape : Healthy', 'crop': 'Grape'},
+        'grape_leaf_blight.JPG': {'name': 'Grape : Leaf Blight | Isariopsis Leaf Spot', 'crop': 'Grape'},
+        # Orange
+        'orange_haunglongbing.JPG': {'name': 'Orange : Haunglongbing | Citrus Greening', 'crop': 'Orange'},
+        # Peach
+        'peach_bacterial_spot.JPG': {'name': 'Peach : Bacterial spot', 'crop': 'Peach'},
+        'peach_healthy.JPG': {'name': 'Peach : Healthy', 'crop': 'Peach'},
+        # Pepper
+        'pepper_bacterial_spot.JPG': {'name': 'Pepper, bell : Bacterial spot', 'crop': 'Pepper Bell'},
+        'pepper_bell_healthy.JPG': {'name': 'Pepper, bell : Healthy', 'crop': 'Pepper Bell'},
+        # Potato
+        'potato_early_blight.JPG': {'name': 'Potato : Early Blight', 'crop': 'Potato'},
+        'potato_healthy.JPG': {'name': 'Potato : Healthy', 'crop': 'Potato'},
+        'potato_late_blight.JPG': {'name': 'Potato : Late Blight', 'crop': 'Potato'},
+        # Raspberry
+        'raspberry_healthy.JPG': {'name': 'Raspberry : Healthy', 'crop': 'Raspberry'},
+        # Soybean
+        'soyaben healthy.JPG': {'name': 'Soybean : Healthy', 'crop': 'Soybean'},
+        # Squash
+        'squash_powdery_mildew.JPG': {'name': 'Squash : Powdery Mildew', 'crop': 'Squash'},
+        # Strawberry
+        'starwberry_healthy.JPG': {'name': 'Strawberry : Healthy', 'crop': 'Strawberry'},
+        'starwberry_leaf_scorch.JPG': {'name': 'Strawberry : Leaf Scorch', 'crop': 'Strawberry'},
+        # Tomato
+        'tomato_bacterial_spot.JPG': {'name': 'Tomato : Bacterial spot', 'crop': 'Tomato'},
+        'tomato-bacterial-spot2.jpg': {'name': 'Tomato : Bacterial spot', 'crop': 'Tomato'},
+        'tomato_early_blight.JPG': {'name': 'Tomato : Early Blight', 'crop': 'Tomato'},
+        'tomato_healthy.JPG': {'name': 'Tomato : Healthy', 'crop': 'Tomato'},
+        'tomato_late_blight.JPG': {'name': 'Tomato : Late Blight', 'crop': 'Tomato'},
+        'tomato_leaf_mold.JPG': {'name': 'Tomato : Leaf Mold', 'crop': 'Tomato'},
+        'tomato_mosaic_virus.JPG': {'name': 'Tomato : Tomato mosaic virus', 'crop': 'Tomato'},
+        'tomato_septoria_leaf_spot.JPG': {'name': 'Tomato : Septoria leaf spot', 'crop': 'Tomato'},
+        'tomato_spider_mites_two_spotted_spider_mites.JPG': {'name': 'Tomato : Spider mites Two-spotted spider mite', 'crop': 'Tomato'},
+        'tomato_target_spot.JPG': {'name': 'Tomato : Target Spot', 'crop': 'Tomato'},
+        'tomato_yellow_leaf_curl_virus.JPG': {'name': 'Tomato : Tomato Yellow Leaf Curl Virus', 'crop': 'Tomato'},
+        'tomato_yellow_leaf_curl_virus2.jpg': {'name': 'Tomato : Tomato Yellow Leaf Curl Virus', 'crop': 'Tomato'},
+        'tomato-leaf-curl-virus3.jpg': {'name': 'Tomato : Tomato Yellow Leaf Curl Virus', 'crop': 'Tomato'},
+        'tomato-mold.jpg': {'name': 'Tomato : Leaf Mold', 'crop': 'Tomato'},
+    }
+    
+    # Get test images directory
+    test_images_dir = os.path.join(BASE_DIR, 'static', 'test_images')
+    test_images = []
+    
+    # Check if test_images directory exists and scan for images
+    if os.path.exists(test_images_dir):
+        for filename in os.listdir(test_images_dir):
+            # Skip non-image files
+            if not filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.JPG')):
+                continue
+            
+            img_path = os.path.join(test_images_dir, filename)
+            if os.path.isfile(img_path):
+                # Check if we have mapping for this file
+                if filename in test_images_mapping:
+                    img_info = test_images_mapping[filename].copy()
+                    img_info['filename'] = filename
+                    img_info['path'] = img_path
+                    test_images.append(img_info)
+                else:
+                    # Try to infer from filename if not in mapping
+                    filename_lower = filename.lower()
+                    if 'healthy' in filename_lower:
+                        crop = filename.split('_')[0].capitalize() if '_' in filename else 'Unknown'
+                        test_images.append({
+                            'name': f'{crop} : Healthy',
+                            'filename': filename,
+                            'path': img_path,
+                            'crop': crop
+                        })
+    
+    # Sort by crop name for better organization
+    test_images.sort(key=lambda x: (x['crop'], x['name']))
+    
+    print(f"Loaded {len(test_images)} test images from test_images folder")
+    
+    # Log warning if no test images found
+    if not test_images:
+        print("Warning: No test images found in test_images folder")
+    
+    return render_template('index.html', t=t, lang=lang, languages=SUPPORTED_LANGUAGES, test_images=test_images)
 
 @app.route('/mobile-device')
 def mobile_device_detected_page():
@@ -190,12 +295,31 @@ def mobile_device_detected_page():
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
     if request.method == 'POST':
-        image = request.files['image']
-        filename = image.filename
-        upload_dir = os.path.join(BASE_DIR, 'static', 'uploads')
-        os.makedirs(upload_dir, exist_ok=True)  # Ensure upload directory exists
-        file_path = os.path.join(upload_dir, filename)
-        image.save(file_path)
+        # Check if test image path is provided
+        test_image_path = request.form.get('test_image_path')
+        if test_image_path:
+            # Use test image directly - handle both absolute and relative paths
+            if os.path.isabs(test_image_path):
+                file_path = test_image_path
+            else:
+                # Try test_images folder first
+                file_path = os.path.join(BASE_DIR, 'static', 'test_images', os.path.basename(test_image_path))
+                if not os.path.exists(file_path):
+                    # Fallback to uploads folder
+                    file_path = os.path.join(BASE_DIR, 'static', 'uploads', os.path.basename(test_image_path))
+            
+            if not os.path.exists(file_path):
+                return "Test image not found", 404
+        else:
+            # Handle uploaded file
+            image = request.files.get('image')
+            if not image:
+                return "No image provided", 400
+            filename = image.filename
+            upload_dir = os.path.join(BASE_DIR, 'static', 'uploads')
+            os.makedirs(upload_dir, exist_ok=True)  # Ensure upload directory exists
+            file_path = os.path.join(upload_dir, filename)
+            image.save(file_path)
         print(f"Image saved to: {file_path}")
         pred = prediction(file_path)
         print(f"Final prediction index: {pred}")

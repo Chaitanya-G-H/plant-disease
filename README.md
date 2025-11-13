@@ -158,7 +158,8 @@ Plant-Disease-Detection-main/
 │   │   └── chatbot.html        # Chatbot widget
 │   │
 │   └── static/                  # Static files
-│       └── uploads/             # Uploaded images
+│       ├── uploads/             # User uploaded images
+│       └── test_images/         # Test images (48+ images for testing)
 │
 ├── Model/                       # Model directory
 │   └── plant_disease_model_1_latest.pt  # Pre-trained model file
@@ -172,14 +173,21 @@ Plant-Disease-Detection-main/
 
 ### Disease Detection
 1. Navigate to the **AI Engine** page
-2. Click **Upload Image** or **Choose File**
-3. Select a leaf image from your device
-4. Click **Submit** to analyze
-5. View the detection results with:
+2. **Option A - Upload Your Image:**
+   - Click **Upload Image** or **Choose File**
+   - Select a leaf image from your device
+   - Click **Submit** to analyze
+3. **Option B - Use Test Images:**
+   - Scroll down to the **Test Images** section
+   - Click on any test image card to instantly test the detection
+   - The system will automatically analyze the selected test image
+4. View the detection results with:
    - Disease name and description
    - Prevention steps
    - Recommended supplements
    - Treatment suggestions
+
+> **💡 Tip**: 48+ pre-loaded test images are available in the `Flask Deployed App/static/test_images/` folder for quick testing and demonstrations. These images cover all supported crops and diseases.
 
 ### Crop Information
 1. Go to the **Home** page
@@ -311,6 +319,19 @@ For any queries or suggestions, please contact us through the **Contact Us** pag
 - **Classes**: 39+ disease categories
 - **Input Size**: 224x224 pixels
 - **Preprocessing**: Resize(255) → CenterCrop(224) → ToTensor()
+
+### Model Performance
+
+- **Training Accuracy**: [To be updated - check training logs or PDF]
+- **Validation Accuracy**: [To be updated - check training logs or PDF]
+- **Test Accuracy**: [To be updated - check training logs or PDF]
+- **Model Architecture**: 4-layer CNN with BatchNorm, Dropout (0.4), and fully connected layers
+- **Typical Performance**: CNN models on Plant Village dataset typically achieve **85-95%+ accuracy** on test sets
+
+> **Note**: For specific accuracy metrics, please refer to:
+> - Training logs/output files
+> - `Model/Plant Disease Detection-code.pdf` (may contain training results)
+> - Model evaluation scripts (if available)
 
 ## 🚨 Troubleshooting
 
