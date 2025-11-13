@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block pagetitle %}Supplements Market - Plant Disease Detection{% endblock pagetitle %}
+
+{% block body %}
+<div class="page-header fade-in-up">
+    <div class="container">
+        <h1><i class="fas fa-shopping-cart"></i> {{ t.supplements if t else 'Supplements' }} Market</h1>
+        <p>{{ t.buy_supplements if t else 'Buy Supplements & Fertilizers at one place' }}</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row g-4">
+        {% for index in range(0, supplement_name | length) %}
+        {% if index != 4 %}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="modern-card text-center">
+                {% if index==3 or index==5 or index==7 or index==11 or index==15 or index==18 or index==20 or index==23 or index==24 or index==25 or index==28 or index==38 %}
+                <span class="badge bg-success mb-2">
+                    <i class="fas fa-check-circle"></i> Fertilizer (Healthy)
+                </span>
+                {% else %}
+                <span class="badge bg-danger mb-2">
+                    <i class="fas fa-exclamation-triangle"></i> Supplement (Diseased)
+                </span>
+                {% endif %}
+                
+                <div class="mb-3">
+                    <img src="{{supplement_image[index]}}" alt="{{supplement_name[index]}}" 
+                         class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                </div>
+                
+                <h6 class="text-muted mb-2">For {{disease[index]}}</h6>
+                <h5 class="mb-3">{{supplement_name[index]}}</h5>
+                
+                <a target="_blank" href="{{buy[index]}}" class="btn btn-modern-success w-100">
+                    <i class="fas fa-shopping-cart"></i> {{ t.buy_now if t else 'Buy Now' }}
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}

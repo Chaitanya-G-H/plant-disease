@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block pagetitle %}Contact Us - Plant Disease Detection{% endblock pagetitle %}
+
+{% block body %}
+<div class="page-header fade-in-up">
+    <div class="container">
+        <h1><i class="fas fa-envelope"></i> {{ t.contact_us if t else 'Contact Us' }}</h1>
+        <p>{{ t.for_queries if t else 'For Any Queries & Suggestions Contact Us. We Are Happy To Help.' }}</p>
+    </div>
+</div>
+
+<div class="container my-5 d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 300px);">
+    <div class="row justify-content-center w-100">
+        <!-- Chaitanya Card -->
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="modern-card fade-in-up mx-auto">
+                <div class="text-center mb-4">
+                    <div class="mb-3">
+                        <i class="fas fa-user-circle fa-4x text-primary"></i>
+                    </div>
+                    <h3 class="mb-2">Chaitanya G H</h3>
+                    <p class="text-muted">
+                        Hi, I am Chaitanya G H.. Currently Pursuing Bachelors in Computer Science and Technology. 
+                    </p>
+                </div>
+                
+                <hr class="my-4">
+                
+                <h5 class="mb-3"><i class="fas fa-share-alt"></i> Social Media Handles</h5>
+                <div class="social-contact">
+                    <a href="mailto:chaitanyagh00@gmail.com" target="_blank" class="contact-link">
+                        <i class="fas fa-envelope fa-2x text-danger"></i>
+                        <span>chaitanyagh00@gmail.com</span>
+                    </a>
+                    <a href="https://chaitanya G H.medium.com" target="_blank" class="contact-link">
+                        <i class="fab fa-medium fa-2x text-dark"></i>
+                        <span>Chaitanya G H</span>
+                    </a>
+                    <a href="https://github.com/chaitanyagh-py" target="_blank" class="contact-link">
+                        <i class="fab fa-github fa-2x text-dark"></i>
+                        <span>chaitanyagh-py</span>
+                    </a>
+                    <a href="www.linkedin.com/in/chaitanya-g-h-028447253" target="_blank" class="contact-link">
+                        <i class="fab fa-linkedin fa-2x text-primary"></i>
+                        <span>Chaitanya G H</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style>
+    .modern-card {
+        max-width: 600px;
+        width: 100%;
+    }
+
+    .social-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .contact-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #333;
+        transition: all 0.3s ease;
+    }
+
+    .contact-link:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        transform: translateX(5px);
+    }
+
+    .contact-link span {
+        font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+        .modern-card {
+            max-width: 100%;
+        }
+    }
+</style>
+{% endblock body %}

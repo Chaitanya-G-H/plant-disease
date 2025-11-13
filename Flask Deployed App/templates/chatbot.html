@@ -1,0 +1,662 @@
+<!-- Chatbot Widget -->
+<div id="chatbot-widget" class="chatbot-widget">
+    <!-- Chatbot Toggle Button -->
+    <button id="chatbot-toggle" class="chatbot-toggle-btn" aria-label="Open Chatbot" title="{{ t.chatbot_title if t else 'Chat with Agricultural Assistant' }}">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="chatbot-container" style="display: none;">
+        <!-- Chatbot Header -->
+        <div class="chatbot-header">
+            <div class="chatbot-header-content">
+                <div class="chatbot-avatar">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="chatbot-info">
+                    <h5>{{ t.chatbot_title if t else 'Agricultural Assistant' }}</h5>
+                    <span class="chatbot-status">{{ t.chatbot_status if t else 'Online' }}</span>
+                </div>
+            </div>
+            <button id="chatbot-close" class="chatbot-close-btn" aria-label="Close Chatbot">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Chatbot Messages -->
+        <div id="chatbot-messages" class="chatbot-messages">
+            <div class="chatbot-message bot-message">
+                <div class="message-avatar">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="message-content">
+                    <p>{{ t.chatbot_welcome if t else "Hello! I'm your agricultural assistant. How can I help you today? You can ask me about plant diseases, crops, farming techniques, or use voice input by clicking the microphone button." }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chatbot Input Area -->
+        <div class="chatbot-input-area">
+            <div class="chatbot-input-wrapper">
+                <button id="voice-input-btn" class="voice-input-btn" aria-label="Voice Input">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <input type="text" id="chatbot-input" class="chatbot-input" 
+                       placeholder="{{ t.chatbot_placeholder if t else 'Type your question or click microphone to speak...' }}" 
+                       autocomplete="off">
+                <button id="voice-output-btn" class="voice-output-btn" aria-label="Voice Output">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <button id="chatbot-send" class="chatbot-send-btn" aria-label="Send Message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div id="voice-status" class="voice-status" style="display: none;">
+                <i class="fas fa-circle text-danger"></i>
+                <span>{{ t.voice_listening if t else 'Listening...' }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Chatbot Widget Styles */
+    .chatbot-widget {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .chatbot-toggle-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .chatbot-toggle-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+    }
+
+    .chatbot-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #ff4444;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .chatbot-container {
+        position: absolute;
+        bottom: 80px;
+        right: 0;
+        width: 380px;
+        max-width: 90vw;
+        height: 600px;
+        max-height: 80vh;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .chatbot-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .chatbot-header-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .chatbot-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .chatbot-info h5 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .chatbot-status {
+        font-size: 12px;
+        opacity: 0.9;
+    }
+
+    .chatbot-close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 5px;
+        transition: transform 0.2s;
+    }
+
+    .chatbot-close-btn:hover {
+        transform: rotate(90deg);
+    }
+
+    .chatbot-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        background: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .chatbot-message {
+        display: flex;
+        gap: 10px;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .bot-message {
+        justify-content: flex-start;
+    }
+
+    .user-message {
+        justify-content: flex-end;
+    }
+
+    .message-avatar {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .bot-message .message-avatar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .user-message .message-avatar {
+        background: #e9ecef;
+        color: #667eea;
+    }
+
+    .message-content {
+        max-width: 75%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        word-wrap: break-word;
+    }
+
+    .bot-message .message-content {
+        background: white;
+        color: #333;
+        border-top-left-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-message .message-content {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-top-right-radius: 5px;
+    }
+
+    .message-content p {
+        margin: 0;
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+
+    .chatbot-input-area {
+        padding: 15px;
+        background: white;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .chatbot-input-wrapper {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .chatbot-input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 2px solid #e9ecef;
+        border-radius: 25px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+    .chatbot-input:focus {
+        border-color: #667eea;
+    }
+
+    .voice-input-btn,
+    .voice-output-btn,
+    .chatbot-send-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        font-size: 16px;
+    }
+
+    .voice-input-btn {
+        background: #ff4444;
+        color: white;
+    }
+
+    .voice-input-btn:hover,
+    .voice-input-btn.listening {
+        background: #cc0000;
+        transform: scale(1.1);
+    }
+
+    .voice-output-btn {
+        background: #28a745;
+        color: white;
+    }
+
+    .voice-output-btn:hover {
+        background: #218838;
+        transform: scale(1.1);
+    }
+
+    .chatbot-send-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .chatbot-send-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4);
+    }
+
+    .voice-status {
+        margin-top: 8px;
+        padding: 8px;
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .voice-status i {
+        animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* Scrollbar Styles */
+    .chatbot-messages::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .chatbot-messages::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .chatbot-messages::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+
+    .chatbot-messages::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+        .chatbot-container {
+            width: calc(100vw - 40px);
+            height: calc(100vh - 120px);
+            bottom: 70px;
+            right: 20px;
+        }
+
+        .chatbot-widget {
+            bottom: 10px;
+            right: 10px;
+        }
+    }
+</style>
+
+<script>
+    // Chatbot JavaScript
+    (function() {
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSend = document.getElementById('chatbot-send');
+        const voiceInputBtn = document.getElementById('voice-input-btn');
+        const voiceOutputBtn = document.getElementById('voice-output-btn');
+        const voiceStatus = document.getElementById('voice-status');
+        
+        let recognition = null;
+        let isListening = false;
+        let synth = window.speechSynthesis;
+        
+        // Get current language from page or default to English
+        function getCurrentLang() {
+            const htmlLang = document.documentElement.lang || 'en';
+            return htmlLang.split('-')[0] || 'en';
+        }
+        
+        let currentLang = getCurrentLang();
+        
+        // Language codes for Web Speech API
+        const langCodes = {
+            'en': 'en-US',
+            'hi': 'hi-IN',
+            'bn': 'bn-BD',
+            'te': 'te-IN',
+            'ta': 'ta-IN',
+            'mr': 'mr-IN',
+            'gu': 'gu-IN',
+            'kn': 'kn-IN',
+            'ml': 'ml-IN',
+            'pa': 'pa-IN',
+            'or': 'or-IN',
+            'ur': 'ur-PK'
+        };
+
+        // Initialize Web Speech API
+        function initializeSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                currentLang = getCurrentLang();
+                recognition.lang = langCodes[currentLang] || 'en-US';
+                
+                recognition.onstart = function() {
+                    isListening = true;
+                    voiceInputBtn.classList.add('listening');
+                    voiceStatus.style.display = 'flex';
+                };
+                
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    chatbotInput.value = transcript;
+                    isListening = false;
+                    voiceInputBtn.classList.remove('listening');
+                    voiceStatus.style.display = 'none';
+                    sendMessage(transcript);
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    isListening = false;
+                    voiceInputBtn.classList.remove('listening');
+                    voiceStatus.style.display = 'none';
+                    addMessage('bot', 'Sorry, I could not understand your voice. Please try again or type your question.');
+                };
+                
+                recognition.onend = function() {
+                    isListening = false;
+                    voiceInputBtn.classList.remove('listening');
+                    voiceStatus.style.display = 'none';
+                };
+            } else {
+                voiceInputBtn.style.display = 'none';
+                console.warn('Speech recognition not supported in this browser');
+            }
+        }
+        
+        // Initialize speech recognition
+        initializeSpeechRecognition();
+        
+        // Update language when page loads or language changes
+        window.addEventListener('load', function() {
+            currentLang = getCurrentLang();
+            if (recognition) {
+                recognition.lang = langCodes[currentLang] || 'en-US';
+            }
+        });
+
+        // Toggle chatbot
+        chatbotToggle.addEventListener('click', function() {
+            chatbotContainer.style.display = chatbotContainer.style.display === 'none' ? 'flex' : 'none';
+        });
+
+        chatbotClose.addEventListener('click', function() {
+            chatbotContainer.style.display = 'none';
+        });
+
+        // Send message
+        function sendMessage(message) {
+            if (!message.trim()) return;
+            
+            // Add user message
+            addMessage('user', message);
+            chatbotInput.value = '';
+            
+            // Show loading
+            const loadingMessage = addMessage('bot', 'Thinking...');
+            
+            // Send to backend
+            fetch('/api/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove loading message
+                loadingMessage.remove();
+                
+                if (data.success) {
+                    addMessage('bot', data.response);
+                    // Auto-read response if voice output is enabled
+                    if (voiceOutputBtn.classList.contains('active')) {
+                        speakText(data.response);
+                    }
+                } else {
+                    addMessage('bot', 'Sorry, I encountered an error. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingMessage.remove();
+                addMessage('bot', 'Sorry, I encountered an error. Please try again.');
+            });
+        }
+
+        // Add message to chat
+        function addMessage(type, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chatbot-message ${type}-message`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.innerHTML = type === 'bot' ? '<i class="fas fa-seedling"></i>' : '<i class="fas fa-user"></i>';
+            
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            const p = document.createElement('p');
+            p.textContent = text;
+            content.appendChild(p);
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            
+            return messageDiv;
+        }
+
+        // Send button click
+        chatbotSend.addEventListener('click', function() {
+            sendMessage(chatbotInput.value);
+        });
+
+        // Enter key press
+        chatbotInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage(chatbotInput.value);
+            }
+        });
+
+        // Voice input button
+        voiceInputBtn.addEventListener('click', function() {
+            if (recognition) {
+                if (isListening) {
+                    recognition.stop();
+                    isListening = false;
+                    voiceInputBtn.classList.remove('listening');
+                    voiceStatus.style.display = 'none';
+                } else {
+                    currentLang = getCurrentLang();
+                    recognition.lang = langCodes[currentLang] || 'en-US';
+                    try {
+                        recognition.start();
+                    } catch (e) {
+                        console.error('Speech recognition error:', e);
+                        addMessage('bot', 'Sorry, voice input is not available. Please type your question.');
+                    }
+                }
+            } else {
+                addMessage('bot', 'Voice input is not supported in your browser. Please type your question.');
+            }
+        });
+
+        // Voice output button
+        voiceOutputBtn.addEventListener('click', function() {
+            voiceOutputBtn.classList.toggle('active');
+            if (voiceOutputBtn.classList.contains('active')) {
+                voiceOutputBtn.style.background = '#218838';
+                // Read last bot message
+                const lastBotMessage = chatbotMessages.querySelector('.bot-message:last-child .message-content p');
+                if (lastBotMessage) {
+                    speakText(lastBotMessage.textContent);
+                }
+            } else {
+                voiceOutputBtn.style.background = '#28a745';
+                synth.cancel();
+            }
+        });
+
+        // Text-to-speech
+        function speakText(text) {
+            if (synth.speaking) {
+                synth.cancel();
+            }
+            
+            currentLang = getCurrentLang();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = langCodes[currentLang] || 'en-US';
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            
+            utterance.onend = function() {
+                console.log('Speech finished');
+            };
+            
+            utterance.onerror = function(event) {
+                console.error('Speech error:', event.error);
+            };
+            
+            try {
+                synth.speak(utterance);
+            } catch (e) {
+                console.error('Text-to-speech error:', e);
+            }
+        }
+
+        // Listen for language changes (when user changes language via dropdown)
+        // The page will reload when language changes, so we don't need polling
+        // But we update recognition language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            currentLang = getCurrentLang();
+            if (recognition) {
+                recognition.lang = langCodes[currentLang] || 'en-US';
+            }
+        });
+    })();
+</script>
+

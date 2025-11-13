@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block pagetitle %}{{title}} - Detection Results{% endblock pagetitle %}
+
+{% block body %}
+<div class="page-header fade-in-up">
+    <div class="container">
+        <h1><i class="fas fa-clipboard-check"></i> {{ t.detection_results if t else 'Detection Results' }}</h1>
+        <p>{{title}}</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <!-- Disease Image -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <div class="modern-card">
+                <h3 class="mb-4"><i class="fas fa-image"></i> {{ t.disease_image if t else 'Disease Image' }}</h3>
+                <img src="{{image_url}}" alt="{{title}}" class="img-fluid rounded" style="max-height: 400px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+    </div>
+
+    <!-- Description Card -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="modern-card">
+                <h4 class="mb-3">
+                    <i class="fas fa-info-circle text-primary"></i>
+                    {% if pred==3 or pred==5 or pred==7 or pred==11 or pred==15 or pred==18 or pred==20 or pred==23 or pred==24 or pred==25 or pred==28 or pred==38 %}
+                    {{ t.tips_to_grow_healthy_plants if t else 'Tips to Grow Healthy Plants' }}
+                    {% else %}
+                    {{ t.brief_description if t else 'Brief Description' }}
+                    {% endif %}
+                </h4>
+                <p class="text-muted" style="line-height: 1.8;">{{desc}}</p>
+            </div>
+        </div>
+
+        <!-- Prevention/Benefits Card -->
+        <div class="col-lg-6">
+            <div class="modern-card">
+                <h4 class="mb-3">
+                    <i class="fas fa-shield-alt text-warning"></i>
+                    {% if pred==3 or pred==5 or pred==7 or pred==11 or pred==15 or pred==18 or pred==20 or pred==23 or pred==24 or pred==25 or pred==28 or pred==38 %}
+                    {{ t.benefits if t else 'Benefits' }}
+                    {% else %}
+                    {{ t.prevention_steps if t else 'Prevention Steps' }}
+                    {% endif %}
+                </h4>
+                <p class="text-muted" style="line-height: 1.8;">{{prevent}}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supplement Card -->
+    {% if pred!=4 %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="modern-card">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 text-center mb-3 mb-lg-0">
+                        <h4 class="mb-3">
+                            <i class="fas fa-pills text-success"></i>
+                            {% if pred==3 or pred==5 or pred==7 or pred==11 or pred==15 or pred==18 or pred==20 or pred==23 or pred==24 or pred==25 or pred==28 or pred==38 %}
+                            {{ t.recommended_fertilizer if t else 'Recommended Fertilizer' }}
+                            {% else %}
+                            {{ t.recommended_supplement if t else 'Recommended Supplement' }}
+                            {% endif %}
+                        </h4>
+                        <img src="{{simage}}" alt="{{sname}}" class="img-fluid rounded" style="max-height: 300px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                    <div class="col-lg-8">
+                        <h5 class="mb-3">{{sname}}</h5>
+                        <p class="text-muted mb-4">This supplement/fertilizer can help treat or prevent the detected disease in your plant.</p>
+                        <a target="_blank" href="{{buy_link}}" class="btn btn-modern-success btn-lg">
+                            <i class="fas fa-shopping-cart"></i> {{ t.buy_now if t else 'Buy Now' }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Action Buttons -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <a href="/index" class="btn btn-modern btn-lg me-3">
+                <i class="fas fa-redo"></i> {{ t.detect_disease if t else 'Analyze Another Image' }}
+            </a>
+            <a href="/market" class="btn btn-modern-success btn-lg">
+                <i class="fas fa-shopping-cart"></i> {{ t.view_supplements if t else 'View All Supplements' }}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock body %}

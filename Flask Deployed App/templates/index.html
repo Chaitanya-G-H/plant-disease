@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% block pagetitle %}AI Engine - Plant Disease Detection{% endblock pagetitle %}
+
+{% block body %}
+<div class="page-header fade-in-up">
+    <div class="container">
+        <h1><i class="fas fa-brain"></i> {{ t.ai_engine if t else 'AI Engine' }}</h1>
+        <p>{{ t.upload_plant_image if t else 'Upload a plant image and let AI detect the disease' }}</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row g-4">
+        <!-- Why Detect Disease Card -->
+        <div class="col-lg-4 col-md-6">
+            <div class="modern-card fade-in-up">
+                <div class="text-center mb-3">
+                    <i class="fas fa-question-circle fa-3x text-primary"></i>
+                </div>
+                <h4 class="mb-3"><b>Why Detect Plant Diseases?</b></h4>
+                <p class="text-muted">
+                    Plant diseases affect the growth of their respective species. Early detection is crucial for 
+                    maintaining healthy crops and preventing significant losses. Proper disease diagnosis helps 
+                    implement effective control measures and ensures optimal plant health.
+                </p>
+            </div>
+        </div>
+
+        <!-- Upload Card -->
+        <div class="col-lg-4 col-md-6">
+            <div class="modern-card fade-in-up">
+                <div class="text-center mb-4">
+                    <i class="fas fa-cloud-upload-alt fa-3x text-success"></i>
+                </div>
+                <h4 class="mb-4 text-center"><b>Upload Plant Image</b></h4>
+                
+                <form action="/submit" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="file-upload-wrapper mb-3">
+                        <input type="file" id="actual-btn" name="image" class="file-upload-input" accept="image/*" required>
+                        <label for="actual-btn" class="file-upload-label">
+                            <i class="fas fa-file-upload"></i> {{ t.choose_file if t else 'Choose Image File' }}
+                        </label>
+                    </div>
+
+                    <div class="file-upload-wrapper mb-3">
+                        <label for="camera-btn" class="file-upload-label" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                            <i class="fas fa-camera"></i> {{ t.open_camera if t else 'Open Camera' }}
+                        </label>
+                        <button type="button" id="camera-btn" style="display: none;"></button>
+                    </div>
+
+                    <div id="file-chosen" class="text-center text-muted mb-3">
+                        <i class="fas fa-info-circle"></i> {{ t.no_file_chosen if t else 'No file chosen' }}
+                    </div>
+
+                    <!-- Camera feed container -->
+                    <div id="camera-container" style="display: none;" class="mb-3">
+                        <video id="camera-feed" width="100%" height="240" autoplay style="border-radius: 10px;"></video>
+                        <div class="text-center mt-2">
+                            <button type="button" id="capture-btn" class="btn btn-modern-success">
+                                <i class="fas fa-camera"></i> Capture Photo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Preview Image -->
+                    <div id="preview-container" style="display: none;" class="mb-3">
+                        <img id="preview" src="#" alt="Preview" style="width: 100%; border-radius: 10px; max-height: 300px; object-fit: contain;">
+                    </div>
+
+                    <p class="text-center text-muted small mb-4">
+                        <i class="fas fa-magic"></i> Simply upload your plant's leaf image and see the magic of AI
+                    </p>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-modern btn-lg w-100">
+                            <i class="fas fa-search"></i> {{ t.submit if t else 'Analyze Image' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Prevention Tips Card -->
+        <div class="col-lg-4 col-md-6">
+            <div class="modern-card fade-in-up">
+                <div class="text-center mb-3">
+                    <i class="fas fa-shield-alt fa-3x text-warning"></i>
+                </div>
+                <h4 class="mb-3"><b>Prevent Plant Diseases</b></h4>
+                <ol class="text-muted" style="padding-left: 1.2rem;">
+                    <li>Follow Good Sanitation Practices</li>
+                    <li>Fertilize to Keep Your Plants Healthy</li>
+                    <li>Inspect Plants for Diseases Before You Bring Them Home</li>
+                    <li>Allow the Soil to Warm Before Planting</li>
+                    <li>Ensure a Healthy Vegetable Garden By Rotating Crops</li>
+                    <li>Provide Good Air Circulation</li>
+                    <li>Remove Diseased Stems and Foliage</li>
+                </ol>
+                <div class="text-center mt-3">
+                    <a target="_blank" href="https://www.thespruce.com/prevent-plant-diseases-in-your-garden-2539511" class="btn btn-modern-success">
+                        <i class="fas fa-external-link-alt"></i> Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const actualBtn = document.getElementById('actual-btn');
+    const fileChosen = document.getElementById('file-chosen');
+    const cameraBtn = document.getElementById('camera-btn');
+    const cameraContainer = document.getElementById('camera-container');
+    const cameraFeed = document.getElementById('camera-feed');
+    const captureBtn = document.getElementById('capture-btn');
+    const previewContainer = document.getElementById('preview-container');
+    const preview = document.getElementById('preview');
+    let stream = null;
+
+    // File input change
+    actualBtn.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            fileChosen.innerHTML = '<i class="fas fa-check-circle text-success"></i> ' + this.files[0].name;
+            preview.src = URL.createObjectURL(this.files[0]);
+            previewContainer.style.display = 'block';
+            cameraContainer.style.display = 'none';
+            // Stop camera if running
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+        }
+    });
+
+    // Camera button click
+    document.querySelector('label[for="camera-btn"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        cameraContainer.style.display = 'block';
+        startCamera();
+    });
+
+    // Start camera
+    function startCamera() {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(mediaStream) {
+                stream = mediaStream;
+                cameraFeed.srcObject = stream;
+            })
+            .catch(function(error) {
+                console.error('Error accessing camera:', error);
+                alert('Could not access camera. Please check permissions.');
+            });
+    }
+
+    // Capture photo
+    captureBtn.addEventListener('click', function() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = cameraFeed.videoWidth;
+        canvas.height = cameraFeed.videoHeight;
+        
+        ctx.drawImage(cameraFeed, 0, 0, canvas.width, canvas.height);
+        
+        canvas.toBlob(function(blob) {
+            const file = new File([blob], "camera_image.jpg", { type: 'image/jpeg' });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            actualBtn.files = dataTransfer.files;
+            
+            fileChosen.innerHTML = '<i class="fas fa-check-circle text-success"></i> Image Captured';
+            preview.src = URL.createObjectURL(blob);
+            previewContainer.style.display = 'block';
+            cameraContainer.style.display = 'none';
+            
+            // Stop camera stream
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+        }, 'image/jpeg');
+    });
+
+    // Update HTML lang attribute based on current language
+    document.documentElement.lang = '{{ lang if lang else "en" }}';
+</script>
+{% endblock body %}

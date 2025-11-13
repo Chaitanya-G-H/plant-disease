@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% block pagetitle %}{{ crop.crop_name if crop else 'Crop Details' }} - Plant Disease Detection{% endblock pagetitle %}
+
+{% block body %}
+{% if crop %}
+<div class="page-header fade-in-up">
+    <div class="container">
+        <h1><i class="fas fa-seedling"></i> {{ crop.crop_name }}</h1>
+        <p>{{ t.complete_guide if t else 'Complete Guide to Growing' }} {{ crop.crop_name }} {{ t.without_diseases if t else 'Without Diseases' }}</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Crop Image -->
+            <div class="modern-card fade-in-up mb-4">
+                <img src="{{ crop.image_url if crop.image_url else 'https://via.placeholder.com/800x400?text=' + crop.crop_name }}" 
+                     alt="{{ crop.crop_name }}" 
+                     class="img-fluid rounded"
+                     style="width: 100%; height: 400px; object-fit: cover;">
+            </div>
+
+            <!-- Description -->
+            <div class="modern-card fade-in-up mb-4">
+                <h3 class="mb-3"><i class="fas fa-info-circle text-primary"></i> {{ t.about_crop if t else 'About' }} {{ crop.crop_name }}</h3>
+                <p class="text-muted" style="font-size: 1.1rem; line-height: 1.8;">{{ crop.description }}</p>
+            </div>
+
+            <!-- Growing Information -->
+            <div class="modern-card fade-in-up mb-4">
+                <h3 class="mb-4"><i class="fas fa-calendar-alt text-primary"></i> {{ t.growth_period if t else 'Growth Period' }} & {{ t.timeline if t else 'Timeline' }}</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <h5><i class="fas fa-seedling text-success"></i> {{ t.growth_period if t else 'Growth Period' }}</h5>
+                        <p class="text-muted">{{ crop.growth_period }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h5><i class="fas fa-calendar text-info"></i> {{ t.growing_season if t else 'Growing Season' }}</h5>
+                        <p class="text-muted">{{ crop.growing_season }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h5><i class="fas fa-clock text-warning"></i> {{ t.harvest_time if t else 'Harvest Time' }}</h5>
+                        <p class="text-muted">{{ crop.harvest_time }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h5><i class="fas fa-thermometer-half text-danger"></i> {{ t.temperature_range if t else 'Temperature Range' }}</h5>
+                        <p class="text-muted">{{ crop.temperature_range }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Growing Requirements -->
+            <div class="modern-card fade-in-up mb-4">
+                <h3 class="mb-4"><i class="fas fa-tasks text-primary"></i> {{ t.growing_requirements if t else 'Growing Requirements' }}</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <h5><i class="fas fa-mountain text-secondary"></i> {{ t.soil_requirements if t else 'Soil Requirements' }}</h5>
+                        <p class="text-muted">{{ crop.soil_requirements }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h5><i class="fas fa-tint text-info"></i> {{ t.watering_requirements if t else 'Watering Requirements' }}</h5>
+                        <p class="text-muted">{{ crop.watering_requirements }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h5><i class="fas fa-sun text-warning"></i> {{ t.sunlight_requirements if t else 'Sunlight Requirements' }}</h5>
+                        <p class="text-muted">{{ crop.sunlight_requirements }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h5><i class="fas fa-ruler text-success"></i> {{ t.spacing_requirements if t else 'Spacing Requirements' }}</h5>
+                        <p class="text-muted">{{ crop.spacing_requirements }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Planting & Care -->
+            <div class="modern-card fade-in-up mb-4">
+                <h3 class="mb-4"><i class="fas fa-hand-holding-seedling text-primary"></i> {{ t.planting_care if t else 'Planting & Care' }}</h3>
+                <div class="mb-3">
+                    <h5><i class="fas fa-seedling text-success"></i> {{ t.planting_method if t else 'Planting Method' }}</h5>
+                    <p class="text-muted">{{ crop.planting_method }}</p>
+                </div>
+                <div class="mb-3">
+                    <h5><i class="fas fa-flask text-info"></i> {{ t.fertilizer_requirements if t else 'Fertilizer Requirements' }}</h5>
+                    <p class="text-muted">{{ crop.fertilizer_requirements }}</p>
+                </div>
+                <div class="mb-3">
+                    <h5><i class="fas fa-heart text-danger"></i> {{ t.special_care if t else 'Special Care' }}</h5>
+                    <p class="text-muted">{{ crop.special_care }}</p>
+                </div>
+            </div>
+
+            <!-- Disease Prevention -->
+            <div class="modern-card fade-in-up mb-4">
+                <h3 class="mb-4"><i class="fas fa-shield-alt text-success"></i> {{ t.disease_prevention if t else 'Disease Prevention Tips' }}</h3>
+                <p class="text-muted" style="font-size: 1.05rem; line-height: 1.8;">{{ crop.disease_prevention }}</p>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Quick Facts -->
+            <div class="modern-card fade-in-up mb-4">
+                <h4 class="mb-3"><i class="fas fa-lightbulb text-warning"></i> {{ t.quick_facts if t else 'Quick Facts' }}</h4>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><strong>{{ t.growth_period if t else 'Growth Period' }}:</strong> {{ crop.growth_period }}</li>
+                    <li class="mb-2"><strong>{{ t.growing_season if t else 'Growing Season' }}:</strong> {{ crop.growing_season }}</li>
+                    <li class="mb-2"><strong>{{ t.harvest_time if t else 'Harvest Time' }}:</strong> {{ crop.harvest_time }}</li>
+                    <li class="mb-2"><strong>{{ t.temperature if t else 'Temperature' }}:</strong> {{ crop.temperature_range }}</li>
+                </ul>
+            </div>
+
+            <!-- Common Diseases -->
+            {% if crop_diseases %}
+            <div class="modern-card fade-in-up mb-4">
+                <h4 class="mb-3"><i class="fas fa-exclamation-triangle text-danger"></i> {{ t.common_diseases if t else 'Common Diseases' }}</h4>
+                <ul class="list-unstyled">
+                    {% for disease in crop_diseases[:5] %}
+                    <li class="mb-2">
+                        <a href="/index" class="text-decoration-none">
+                            <i class="fas fa-leaf text-success"></i> {{ disease.disease_name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <a href="/index" class="btn btn-modern btn-sm mt-2">
+                    <i class="fas fa-brain"></i> {{ t.detect_disease if t else 'Detect Disease' }}
+                </a>
+            </div>
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="modern-card fade-in-up">
+                <h4 class="mb-3"><i class="fas fa-tools text-primary"></i> {{ t.tools if t else 'Tools' }}</h4>
+                <a href="/index" class="btn btn-modern btn-block mb-2">
+                    <i class="fas fa-brain"></i> {{ t.detect_disease if t else 'Detect Disease' }}
+                </a>
+                <a href="/market" class="btn btn-modern-success btn-block mb-2">
+                    <i class="fas fa-shopping-cart"></i> {{ t.view_supplements if t else 'View Supplements' }}
+                </a>
+                <a href="/" class="btn btn-outline-primary btn-block">
+                    <i class="fas fa-home"></i> {{ t.back_to_home if t else 'Back to Home' }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    .btn-outline-primary {
+        border: 2px solid #667eea;
+        color: #667eea;
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: transparent;
+    }
+
+    .modern-card h5 {
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .modern-card h5 i {
+        margin-right: 0.5rem;
+    }
+</style>
+{% else %}
+<div class="page-header fade-in-up">
+    <div class="container">
+        <h1><i class="fas fa-exclamation-triangle text-danger"></i> {{ t.crop_not_found if t else 'Crop Not Found' }}</h1>
+        <p>{{ error if error else (t.crop_info_not_available if t else 'The requested crop information is not available.') }}</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="modern-card text-center">
+                <i class="fas fa-seedling fa-4x text-muted mb-3"></i>
+                <h3>{{ t.crop_info_not_available if t else 'Crop Information Not Available' }}</h3>
+                <p class="text-muted">{{ t.crop_not_in_database if t else "The crop you're looking for is not in our database." }}</p>
+                <a href="/" class="btn btn-modern mt-3">
+                    <i class="fas fa-home"></i> {{ t.back_to_home if t else 'Back to Home' }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock body %}
+

@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block pagetitle %}Plant Disease Detection - Home{% endblock pagetitle %}
+
+{% block body %}
+<div class="page-header fade-in-up">
+    <div class="container">
+        <h1><i class="fas fa-leaf"></i> {{ t.plant_disease_detection if t else 'Plant Disease Detection' }}</h1>
+        <p>{{ t.ai_powered_detection if t else 'AI-Powered Disease Detection for Fruits and Vegetables' }}</p>
+        <a href="/index" class="btn btn-modern btn-lg mt-3">
+            <i class="fas fa-brain"></i> {{ t.try_ai_detection if t else 'Try AI Detection' }}
+        </a>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="modern-card text-center">
+                <h3 class="mb-3"><i class="fas fa-info-circle text-primary"></i> {{ t.supported_plants if t else 'Supported Plants' }}</h3>
+                <p class="text-muted">{{ t.click_plant_info if t else 'Click on any plant to learn more about growing it without diseases' }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Apple" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://post.healthline.com/wp-content/uploads/2020/09/Do_Apples_Affect_Diabetes_and_Blood_Sugar_Levels-732x549-thumbnail-1-732x549.jpg" alt="Apple">
+                    <h5><i class="fas fa-apple-alt text-danger"></i> Apple</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Blueberry" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://www.supermarketperimeter.com/ext/resources/0430-blueberries.png?t=1588260305&width=1080" alt="Blueberry">
+                    <h5><i class="fas fa-seedling text-primary"></i> Blueberry</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Cherry" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/slideshows/health_benefits_of_cherries_slideshow/1800x1200_health_benefits_of_cherries_slideshow.jpg" alt="Cherry">
+                    <h5><i class="fas fa-cherry text-danger"></i> Cherry</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Corn" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://static.vecteezy.com/system/resources/previews/030/636/957/non_2x/corn-image-hd-free-photo.jpg" alt="Corn">
+                    <h5><i class="fas fa-corn text-warning"></i> Corn</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Grape" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://i.ndtvimg.com/i/2015-09/grapes_625x350_61443376353.jpg" alt="Grape">
+                    <h5><i class="fas fa-grapes text-purple"></i> Grape</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Orange" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://media.istockphoto.com/id/477836156/photo/orange-fruit-isolated-on-white.jpg?s=612x612&w=0&k=20&c=NQYciPqF0kRqnDMx7Vy96Qhtx2c37OiKPXtjMR3Oy-Y=" alt="Orange">
+                    <h5><i class="fas fa-orange text-warning"></i> Orange</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Peach" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/the_health_benefits_of_peaches_slideshow/thinkstock_rf_peaches.jpg?resize=650px:*" alt="Peach">
+                    <h5><i class="fas fa-peach text-warning"></i> Peach</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Pepper%20Bell" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://www.chilipeppermadness.com/wp-content/uploads/2024/02/Bell-Peppers1.jpg" alt="Pepper Bell">
+                    <h5><i class="fas fa-pepper-hot text-danger"></i> Pepper Bell</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Potato" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://m.economictimes.com/thumb/height-450,width-600,imgsize-111140,msid-72862126/potato-getty.jpg" alt="Potato">
+                    <h5><i class="fas fa-potato text-warning"></i> Potato</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Raspberry" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://i0.wp.com/cdn-prod.medicalnewstoday.com/content/images/articles/326/326272/raspberries-with-ketones-in-a-bowl.jpg?w=1155&h=1541" alt="Raspberry">
+                    <h5><i class="fas fa-raspberry text-danger"></i> Raspberry</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Soybean" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://m.economictimes.com/thumb/msid-66988154,width-1200,height-900,resizemode-4,imgsize-211276/soyabean-agencies.jpg" alt="Soybean">
+                    <h5><i class="fas fa-seedling text-success"></i> Soybean</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Squash" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://post.healthline.com/wp-content/uploads/2020/08/squash-fruit-or-vegetable-732x549-thumbnail-732x549.jpg" alt="Squash">
+                    <h5><i class="fas fa-squash text-warning"></i> Squash</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Strawberry" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://images.indianexpress.com/2020/02/strawberry-1200.jpg" alt="Strawberry">
+                    <h5><i class="fas fa-strawberry text-danger"></i> Strawberry</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="/crop/Tomato" class="text-decoration-none">
+                <div class="plant-card fade-in-up clickable-card">
+                    <img src="https://images-prod.healthline.com/hlcmsresource/images/AN_images/tomatoes-1296x728-feature.jpg" alt="Tomato">
+                    <h5><i class="fas fa-tomato text-danger"></i> Tomato</h5>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <a href="/index" class="btn btn-modern btn-lg">
+                <i class="fas fa-brain"></i> {{ t.start_detection if t else 'Start Detection Now' }}
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-purple {
+        color: #7c50a8;
+    }
+
+    .clickable-card {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .clickable-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .plant-card a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    a.text-decoration-none {
+        color: inherit;
+    }
+</style>
+{% endblock body %}
